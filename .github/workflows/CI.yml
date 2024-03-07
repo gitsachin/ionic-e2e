@@ -16,7 +16,7 @@ jobs:
           node-version: '20'
 
       - name: Install Dependencies
-        run: npm ci
+        run: npm install --force
       
       - name: Start Server
         run: npm start & npx wait-on --timeout 120000 http://localhost:4200/
