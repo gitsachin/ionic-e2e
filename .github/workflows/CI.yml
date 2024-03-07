@@ -29,7 +29,7 @@ jobs:
         run: npm start &
       
       - name: Wait for Server
-        run: npx wait-on http://localhost:8100
+        run: npx wait-on http://localhost:4200
 
       - name: Run E2E Tests
         run: npm run ionic-e2e:run:web
