@@ -3,34 +3,32 @@ name: CI Workflow
 on: [push, pull_request]
 
 jobs:
-  build-and-test:
-    name: Build and Test on Node ${{ matrix.node_version }} and ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        node_version: [20] # Updated to include newer versions of Node
-        os: [ubuntu-latest]
+  build-deploy-and-test:
+    name: Build, Deploy, and Test
+    runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2 # Updated to use v2
+      - uses: actions/checkout@v2
 
-      - name: Use Node.js ${{ matrix.node_version }}
-        uses: actions/setup-node@v2 # Updated to use v2
+      - name: Use Node.js
+        uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node_version }}
+          node-version: '20'
 
       - name: Install Dependencies
         run: npm install --force
 
       - name: Build Angular App
-        run: npm run build
+        run: npm run build -- --prod --base-href /ionic-e2e/
 
-      - name: Start Server
-        run: npm start &
-      
-      - name: Wait for Server
-        run: npx wait-on http://localhost:4200
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@4.1.4
+        with:
+          branch: gh-pages # The branch the action should deploy to.
+          folder: dist/your-app-name # The folder the action should deploy.
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run E2E Tests
         run: npm run ionic-e2e:run:web
-        # Adjust this command based on the script you have for running tests
+        env:
+          BASE_URL: https://gitsachin.github.io/ionic-e2e/
