@@ -41,7 +41,14 @@ config.capabilities = [
     maxInstances: 1,
     browserName: 'chrome',
     'goog:chromeOptions': {
-      args: ['--window-size=500,1000'],
+      args: [
+        '--headless',
+        '--disable-gpu',
+        '--window-size=1280,800',
+        '--no-sandbox',
+        '--disable-dev-shm-usage',
+        '--window-size=500,1000'
+      ],
       // See https://chromedriver.chromium.org/mobile-emulation
       // For more details
       mobileEmulation: {

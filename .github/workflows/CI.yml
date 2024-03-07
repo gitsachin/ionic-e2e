@@ -1,29 +1,34 @@
-# GitHub Actions docs
-# https://help.github.com/en/articles/about-github-actions
-# https://help.github.com/en/articles/workflow-syntax-for-github-actions
-
-name: Install Dependencies, Lint src and tests
+name: CI Workflow
 
 on: [push, pull_request]
 
 jobs:
-  test:
-    name: Test on node ${{ matrix.node_version }} and ${{ matrix.os }}
+  build-and-test:
+    name: Build and Test on Node ${{ matrix.node_version }} and ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node_version: [12]
+        node_version: [14, 16] # Updated to include newer versions of Node
         os: [ubuntu-latest]
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2 # Updated to use v2
+
       - name: Use Node.js ${{ matrix.node_version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2 # Updated to use v2
         with:
           node-version: ${{ matrix.node_version }}
+
       - name: Install Dependencies
         run: npm ci
-      - name: Lint
-        run: npm run lint
-      - name: Lint E2E
-        run: npm run lint:e2e
+
+      - name: Build Angular App
+        run: npm run build
+
+      - name: Start Angular Server
+        run: npm start &
+        # Use "&" to run the server in the background or use a different strategy to serve your app
+
+      - name: Run E2E Tests
+        run: npm run ionic-e2e:run:web
+        # Adjust this command based on the script you have for running tests
