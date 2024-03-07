@@ -25,7 +25,7 @@ jobs:
       - name: Build Angular App
         run: npm run build
 
-      - name: Start Angular Server
+      - name: Start Server
         run: npm start &
         # Use "&" to run the server in the background or use a different strategy to serve your app
 
