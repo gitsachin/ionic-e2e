@@ -24,6 +24,9 @@ jobs:
       # This step serves your application. Adjust the command according to how you would start your server.
       - name: Start Server
         run: npm start &
+
+      - name: Wait for Server to Start
+        run: npx wait-on --timeout 70000 http://localhost:4200
         # You might need a way to ensure the server has started before running tests. Consider using a tool like wait-on.
 
       # Now run your E2E tests against the locally served application. Ensure your test configuration targets the correct local URL.
