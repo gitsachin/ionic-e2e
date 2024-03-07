@@ -8,7 +8,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node_version: [14, 16] # Updated to include newer versions of Node
+        node_version: [20] # Updated to include newer versions of Node
         os: [ubuntu-latest]
 
     steps:
