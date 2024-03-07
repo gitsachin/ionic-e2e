@@ -27,7 +27,9 @@ jobs:
 
       - name: Start Server
         run: npm start &
-        # Use "&" to run the server in the background or use a different strategy to serve your app
+      
+      - name: Wait for Server
+        run: npx wait-on http://localhost:8100
 
       - name: Run E2E Tests
         run: npm run ionic-e2e:run:web
